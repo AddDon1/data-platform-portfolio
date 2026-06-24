@@ -1,4 +1,5 @@
 """Скрипт для сверки чеков с витриной данных."""
+from loguru import logger
 import pandas as pd
 
 LIST_OF_STORE_IRKUTSK = [
@@ -92,12 +93,12 @@ def main():
     vitrina_df = load_vitrina_data('reports/vitrina_2026_without_store.xlsx')
     checks_df = load_checks_data('reports/checks_df.csv')
 
-    print(vitrina_df['RRN'].head())
-    print(vitrina_df.info())
-    print(vitrina_df.shape[0])
+    logger.info(f"RRN sample: {vitrina_df['RRN'].head()}")
+    logger.info(f"Vitrina info: {vitrina_df.info()}")
+    logger.info(f"Vitrina shape: {vitrina_df.shape[0]}")
 
-    print(checks_df['close_date'].head())
-    print(vitrina_df['close_date'].head())
+    logger.info(f"Checks close_date sample: {checks_df['close_date'].head()}")
+    logger.info(f"Vitrina close_date sample: {vitrina_df['close_date'].head()}")
 
     vitrina_df['close_date'] = pd.to_datetime(
         vitrina_df['close_date'], dayfirst=True,
@@ -109,9 +110,9 @@ def main():
         on_columns=['format_name', 'payed_money_bank'],
     )
 
-    print(merged_df.head())
-    print(merged_df.info())
-    print(merged_df.shape[0])
+    logger.info(f"Merged df head: {merged_df.head()}")
+    logger.info(f"Merged df info: {merged_df.info()}")
+    logger.info(f"Merged df shape: {merged_df.shape[0]}")
 
     merged_df.to_csv(
         'result/sverka_without_store_2026.csv',
